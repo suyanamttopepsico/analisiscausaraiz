@@ -1,0 +1,8 @@
+Componente	Parte de Componente	Difiere estado normal	Problema repetitivo	Problema previo	Detalles Problema repetitivo	Detalles Problema Previo	Imagen de Avería	Autor	Evento	DDetalles_Problema_Previo	Detalles_Problema_repetitivo	Difiere_estado_normal	Imagen_de_Averia	Parte_de_Componente	Problema_previo	Problema_repetitivo
+									1							
+									2							
+									3							
+									4							
+									5							
+									4							
+								PAZMINO RUBEN {PEP}	2						Si, ha existido un problema previo	Si, es repetitivo

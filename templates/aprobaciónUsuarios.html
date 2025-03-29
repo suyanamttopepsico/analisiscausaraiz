@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Registro de Equipo</title>
+    <style>
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1C83E1; /* Color del texto */
+            border-bottom: 2px solid #1C83E1; /* Color de la línea */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    
+        h1 {
+            color: #1C83E1; /* Color del título principal */
+        }
+    
+        .btn-primary {
+            background-color: #1C83E1;
+            border-color: #1C83E1;
+        }
+    
+        .btn-primary:hover {
+            background-color: #155a97;
+            border-color: #155a97;
+        }
+        #flash-message {
+            transition: opacity 0.5s ease-out;
+            visibility: visible; /* Mantenerlo visible inicialmente */
+        }
+        .fade-out {
+            opacity: 0; /* Cambiar a opacidad 0 para desvanecer */
+            visibility: hidden; /* Cambiar la visibilidad a oculto después del desvanecimiento */
+        }
+        .alert {
+            margin-bottom: 1rem; /* Espaciado entre el mensaje y el resto del contenido */
+        }
+        /* Espacio reservado para el mensaje de flash */
+        .flash-container {
+            min-height: 60px; /* Ajusta la altura según el diseño que desees */
+        }
+    </style>
+        <style>
+            .section-title {
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #1C83E1; /* Color del texto */
+                border-bottom: 2px solid #1C83E1; /* Color de la línea */
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+     
+            #sidebar {
+                height: 100%;
+                width: 250px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: #f8f9fa;
+                padding-top: 20px;
+                transition: 0.3s;
+                overflow-x: hidden;
+            }
+            #sidebar a {
+                padding: 10px 15px;
+                text-decoration: none;
+                font-size: 18px;
+                color: #333;
+                display: block;
+                transition: 0.3s;
+            }
+            #sidebar a:hover {
+                color: #007bff;
+            }
+            #main {
+                margin-left: 250px;
+                transition: margin-left 0.3s;
+            }
+            #sidebarCollapse {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                font-size: 30px;
+                cursor: pointer;
+                z-index: 1000;
+            }
+            .navbar-custom {
+                background-color: #004B93;
+            }
+       
+            .navbar-nav {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+                color: white !important;
+            }
+            .navbar-brand {
+                margin: 0 auto;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                align-items: center;
+                font-size: 1.75rem;
+            }
+            .navbar-brand img {
+                margin-left: 5px;
+                height: 20px;
+                width: auto;
+            }
+            .sidebar-link {
+                margin-top: 40px;
+            }
+            .card {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+            }
+            .card img {
+                max-height: 150px;
+                object-fit: cover;
+            }
+            .ticker {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #f8f9fa;
+                padding: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            }
+            .ticker-text {
+                display: inline-block;
+                padding-left: 100%;
+                animation: ticker 30s linear infinite;
+            }
+            @keyframes ticker {
+                0% { transform: translateX(100%); }
+                100% { transform: translateX(-100%); }
+            }
+            @media (max-width: 768px) {
+                #sidebar {
+                    width: 0;
+                    padding-top: 15px;
+                }
+                #main {
+                    margin-left: 0;
+                }
+            }
+            .card-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .card-container .card {
+                flex: 1 1 calc(20% - 10px);
+                margin: 5px;
+            }
+            h2 {
+                color: #1C83E1; /* Color del título principal */
+            }
+            .center-text {
+            text-align: center;
+            }   
+         
+            .table-container {
+                display: flex;
+                justify-content: center;
+                overflow-x: auto;
+            }
+            .table {
+                width: auto;
+            }
+            
+
+        </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{{url_for('welcome')}}">
+            Análisis Causa Raíz Andinos
+            <img src="{{ url_for('static', filename='images/Venezuela.png') }}" alt="ImagenVenezuela">
+            <img src="{{ url_for('static', filename='images/Colombia.png') }}" alt="ImagenColombia">
+            <img src="{{ url_for('static', filename='images/Ecuador.png') }}" alt="ImagenEcuador">
+            <img src="{{ url_for('static', filename='images/Perú.png') }}" alt="ImagenPerú">
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="sidebar">
+        <a href="{{ url_for('edit_user', username=current_user.username) }}" class="sidebar-link">Editar Perfil</a>
+        <a href="#">Opción 2</a>
+        <a href="#">Opción 3</a>
+    </div>
+
+    <div class="container mt-5">
+        <div id="sidebarCollapse" onclick="toggleSidebar()">☰</div>
+        <h2 class="mb-4 center-text">Análisis Realizados por {{ usuario_actual }}</h2>
+        <!-- Tabla de datos -->
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% if data and data|length > 0 %}
+                            {% for column in data[0].keys() %}
+                                <th>{{ column }}</th>
+                            {% endfor %}
+                            <th>Acciones</th>
+                        {% else %}
+                            <th>No hay datos disponibles</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data %}
+                        {% for row in data %}
+                            <tr>
+                                {% for value in row.values() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                                <td>
+                                    <a href="{{ url_for('select', index=loop.index0) }}" class="btn btn-primary btn-sm">Seleccionar</a>
+                                    <button onclick="confirmDelete({{ loop.index0 }})" class="btn btn-danger btn-sm">Eliminar</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Mensaje para cuando no hay datos en 'data' -->
+                        <tr>
+                            <td colspan="5"></td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+                
+                
+            </table>
+        </div>
+
+
+        <!-- Mensaje de confirmación -->
+        <form id="deleteForm" method="post" style="display: none;">
+            <input type="hidden" id="deleteId" name="deleteId">
+        </form>
+    </div>
+
+    <script>
+        function confirmDelete(index) {
+            if (confirm("¿Está seguro de eliminar este registro?")) {
+                const form = document.getElementById("deleteForm");
+                form.action = `/delete/${index}`;
+                form.submit();
+            }
+        }
+    </script>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            if (sidebar.style.width === "250px" || sidebar.style.width === "") {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+            } else {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+ID_user	username	password	email	first_name	last_name	position	country	plant	phone	sap_position	pending_approval	ID
+	PAZMIÑO, RUBÉN {PEP}	$2b$12$Zh.PGbiMaVXuFC6XEbo1MudVLVpPCz5xOtcaBkG6fgeFIVH7l3i6O	ruben.pazmino@pepsico.com	RUBEN	PAZMIÑO	Supervisor Regional	Ecuador	Suyana	998336017	MECANIC2	False	1.0
+	CASTELLANO, DANILO (PEP)	$2b$12$GtU97svyZiHSqxO46c6EeOti/L0fkBYZ/gm2gHJv7lRCP7kDWl3/O	danilo.castellano@pepsico.com	Danilo	Castellano	Técnico de Mantenimiento	Ecuador	Suyana	996434452	ELECTRO1	False	2.0

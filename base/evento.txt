@@ -1,0 +1,2 @@
+ID	Categoria	Fecha_Evento	OT_Averia	OT_RCA	Planta	Linea_Produccion	Area_Empresa	Cod_SAP	Nombre_Equipo_SAP	Causa_RCA	Costos	Tiempo_Total	MTBF	MTTR	Tecnico	Representante_Mantenimiento	Representante_SASS	Representante_Calidad	Representante_Produccion	Terminado	Aprobado	Aprobado_Regional	Aproador_Local	Autor
+1	Mtto planeado																			0	0			PAZMIÑO, RUBÉN {PEP}

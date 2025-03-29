@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condiciones Q1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Añadir Condición</h2>
+        <form id="formularioCondiciones">
+            <div class="form-group">
+                <label for="descripcion">Descripción de la condición:</label>
+                <input type="text" class="form-control" id="descripcion" required>
+            </div>
+            <div class="form-group">
+                <label for="imagen">Seleccionar imagen:</label>
+                <input type="file" class="form-control-file" id="imagen" accept="image/*" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="guardarCondicion()">Agregar Condición</button>
+        </form>
+
+        <h2 class="mt-5">Condiciones Guardadas</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Descripción</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCondiciones">
+                <!-- Aquí se mostrarán las condiciones guardadas -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Función para cargar condiciones desde el DataFrame del backend
+        function cargarCondiciones() {
+            fetch('/condiciones')
+                .then(response => response.json())
+                .then(data => {
+                    const tabla = document.getElementById('tablaCondiciones');
+                    tabla.innerHTML = '';
+                    data.condiciones.forEach((condicion, index) => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${condicion.descripcion}</td>
+                            <td><img src="${condicion.imagen}" alt="Imagen" style="max-width: 100px;"></td>
+                            <td><button class="btn btn-danger" onclick="eliminarCondicion(${index})">Eliminar</button></td>
+                        `;
+                        tabla.appendChild(fila);
+                    });
+                })
+                .catch(error => console.error('Error al cargar condiciones:', error));
+        }
+
+        // Función para guardar una nueva condición
+        function guardarCondicion() {
+            const descripcion = document.getElementById('descripcion').value;
+            const imagenInput = document.getElementById('imagen');
+            const imagen = imagenInput.files[0];
+
+            if (!descripcion || !imagen) {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('descripcion', descripcion);
+            formData.append('imagen', imagen);
+
+            fetch('/condiciones', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('formularioCondiciones').reset();
+                    cargarCondiciones();
+                } else {
+                    alert("Error al guardar la condición.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Función para eliminar una condición
+        function eliminarCondicion(index) {
+            fetch(`/eliminar_condicion/${index}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    cargarCondiciones();
+                } else {
+                    alert("Error al eliminar la condición.");
+                }
+            })
+            .catch(error => console.error('Error al eliminar la condición:', error));
+        }
+
+        // Cargar las condiciones al iniciar la página
+        document.addEventListener('DOMContentLoaded', cargarCondiciones);
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte RCA</title>
+    <style>
+        @page {
+            size: A4; /* Establece el tamaño de la página */
+            margin: 2cm; /* Márgenes de la página */
+        }
+        /* Estilos básicos para el documento */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: right;
+            font-size: 13px;
+        }
+        .title {
+            text-align: center;
+            color: blue;
+        }
+        .section-title {
+            background-color: powderblue;
+            padding: 10px;
+        }
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            font-size: 18px;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <p class="header"><b>Mantenimiento Andinos</b>: Planta {{ session['evento']['Planta'] }}</p>
+    <h1 class="title">REPORTE DE ANÁLISIS CAUSA RAÍZ</h1>
+
+    <p style="font-size: 18px;">
+        Este documento es un informe generado a partir del RCA realizado por 
+        <b>{{ session['evento']['Autor'] }}</b>
+        {% if session['evento']['Autor'] == session['evento']['Tecnico'] %}
+            , técnico de mantenimiento de la planta {{ session['evento']['Planta'] }}.
+        {% else %}
+            en conjunto con el técnico de mantenimiento <b>{{ session['evento']['Tecnico'] }}</b>, en la planta {{session['evento']['Planta'] }}.
+        {% endif %}
+    </p>
+
+    <div class="section-title">
+        <h2>1. Registro de la Avería & 2. Foto de la avería</h2>
+    </div>
+    <table>
+        <tr><td>Fecha del evento</td><td>{{ session['evento']['Fecha_Evento'] }}</td></tr>
+        <tr><td>OT Avería</td><td>{{ session['evento']['OT_Averia'] }}</td></tr>
+        <tr><td>OT RCA</td><td>{{ session['evento']['OT_RCA']}}</td></tr>
+        <tr><td>Ubicación</td><td>{{ session['evento']['Linea_Produccion'] }}</td></tr>
+        <tr><td>Área</td><td>{{ session['evento']['Area_Empresa'] }}</td></tr>
+        <tr><td>Equipo</td><td>{{ session['evento']['Nombre_Equipo_SAP'] }}</td></tr>
+        <tr><td>Parada de Línea</td><td>{{ session['evento']['Nombre_Equipo_SAP'] }} hr(s) de parada de línea</td></tr>
+        {% if session['evento']['Costos']|int > 0 %}
+        <tr><td>Costos</td><td>${{ session['evento']['Costos'] }}</td></tr>
+        {% endif %}
+    </table>
+
+    <div class="section-title">
+        <h2>3. Descripción del Problema</h2>
+    </div>
+    <table>
+        <tr><td>¿Qué componente?</td><td>{{ session['problema']['Componente'] }}</td></tr>
+        <tr><td>¿Qué parte del componente?</td><td>{{ session['problema']['Parte_de_Componente'] }}</td></tr>
+        <tr><td>¿Cómo difiere de su estado normal?</td><td>{{ session['problema']['Difiere_estado_normal'] }}</td></tr>
+        {% if session['problema']['Problema_previo'] %}
+        <tr><td>Mal funcionamiento previo</td><td>{{ session['problema']['Detalles_Problema_Previo'] }}</td></tr>
+        {% endif %}
+        {% if session['problema']['Problema_repetitivo'] %}
+        <tr><td>Problema previo</td><td>{{ session['problema']['Detalles_Problema_repetitivo'] }}</td></tr>
+        {% endif %}
+    </table>
+
+    <div class="section-title">
+        <h2>4. Imagen del Equipo</h2>
+    </div>
+    <img src="{{session['problema']['Imagen_de_Averia']}}" alt="Imagen 1">
+
+    <div class="section-title">
+        <h2>5. Secuencia de Funcionamiento</h2>
+    </div>
+    <table>
+        <tr>
+            <th>Secuencia</th>
+            <th>Condiciones de Operación</th>
+        </tr>
+        {% for secuencia, condiciones in session['secuencia_condiciones'] %}
+        <tr>
+            <td>{{ secuencia }}</td>
+            <td>{{ condiciones }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

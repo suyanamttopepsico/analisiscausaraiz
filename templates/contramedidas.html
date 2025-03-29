@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Condiciones</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .navbar-custom {
+            background-color: #004B93;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white !important;
+        }
+        .navbar-brand {
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+        }
+        .navbar-brand img {
+            margin-left: 5px;
+            height: 20px;
+            width: auto;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #004B93;
+            border-bottom: 2px solid #004B93;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand">Condiciones de secuencia</a>
+        <a href="/cincoporque" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left" style="font-size: 24px;"></i>
+        </a>
+        <a href="/bases" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-save" style="font-size: 24px;"></i>
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <!-- Columna de ingreso de condición (1/3 de la pantalla) -->
+            <div class="col-md-4">
+                <div class="card p-3 mb-4 shadow-sm" style="height: 100%;">
+                    <h5 class="card-title">Ingresar contramedidas</h5>
+                    <form action="/contramedidas" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="tipo">Tipo de Contramedida</label>
+                            <select class="form-control" id="tipo" name="tipo" required>
+                                <option value="">Seleccionar</option>
+                                <option value="Inmediato">Inmediato</option>
+                                <option value="Mediano plazo">Mediano plazo</option>
+                                <option value="Largo plazo">Largo plazo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcionBreve">Descripción breve</label>
+                            <input type="text" class="form-control" id="descripcionBreve" name="descripcionBreve"  required>
+                        </div>
+                        <div class="form-group">
+                            <label for="otSAP">OT SAP</label>
+                            <input type="text" class="form-control" id="otSAP" name="otSAP">
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaCumplimiento">Fecha de cumplimiento</label>
+                            <input type="date" class="form-control" id="fechaCumplimiento" name="fechaCumplimiento" required>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="completado" name="completado">
+                            <label class="form-check-label" for="completado">Completado</label>
+                        </div>
+                      
+                        <button type="submit" class="btn btn-primary mt-4 w-100">Guardar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Columna de presentación de condiciones registradas (2/3 de la pantalla) -->
+            <div class="col-md-8">
+                <div class="card p-3 mb-4 shadow-sm" style="height: 100%;">
+                    <h5 class="card-title">Lista de contramedidas registradas</h5>
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>Indice</th>
+                                <th>Tipo</th>
+                                <th>Descripción breve</th>
+                                <th>OT SAP</th>
+                                <th>Fecha de cumplimiento</th>
+                                <th>Completado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in contramedidas %}
+                            <tr>
+                                <td>{{ row['Indice'] }}</td>
+                                <td>{{ row['Tipo'] }}</td>
+                                <td>{{ row['Descripcion_breve'] }}</td>
+                                <td>{{ row['OT_SAP'] }}</td>
+                                <td>{{ row['Fecha_de_cumplimiento'] }}</td>
+                                <td>{{ 'Sí' if row['OT_Completado'] else 'No' }}</td>
+                                <td>
+                            
+                                    <form action="{{ url_for('contramedidas.edit', index=row['Indice']) }}" method="get" style="display:inline;">
+                                        <button type="submit" class="btn btn-warning btn-sm">Editar</button>
+                                    </form>
+                                    <form action="{{ url_for('contramedidas.delete', index=row['Indice']) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

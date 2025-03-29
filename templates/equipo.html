@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .navbar-custom {
+            background-color: #004B93;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white !important;
+        }
+        .navbar-brand {
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+        }
+        .navbar-brand img {
+            margin-left: 5px;
+            height: 20px;
+            width: auto;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #004B93;
+            border-bottom: 2px solid #004B93;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .long-text-input{
+            width:100%;
+            height: 100px;
+            padding:10px;
+            font-size:16px;
+            color: #555;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize:vertical;
+        }
+        .long-text-input:focus{
+            border-color: #007bff;
+            outline:none;
+        }
+    </style>
+    <script>
+        function getFormulario(direccion) {
+                // Asigna el valor al campo oculto
+                document.getElementById('action').value = direccion;
+                // Envía el formulario
+                document.getElementById('formEquipo').submit();
+            }
+    </script>
+
+    
+
+    <title>Registro de Equipo</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" >
+            Descripción de funcionamiento
+   
+        </a>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('problema').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('fenomeno').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-right" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('bases').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-save" style="font-size: 24px;"></i>
+        </button>
+
+        <!-- <a href="/bases" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-save" style="font-size: 24px;"></i>
+        </a> -->
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" >Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <h2 class="section-title">Registro de Equipo</h2>
+        
+        <div class="row justify-content-center">
+            <!-- Columna de ingreso del equipo (1/2 de la pantalla) -->
+            <div class="col-md-7">
+                <div class="card p-3 mb-4 shadow-sm" style="height: 100%;">
+                    <h5 class="card-title">Ingresar Equipo</h5>
+                    <form id=formEquipo action="/equipo" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="action" id="action" value="">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombre_equipo">Nombre del equipo</label>
+                                <input type="text" class="form-control mt-2" id="nombre_equipo" name="nombre_equipo" value="{{ equipo['Nombre'] }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fabricante_equipo">Fabricante del equipo</label>
+                                <input type="text" class="form-control mt-2" id="fabricante_equipo" name="fabricante_equipo" value="{{ equipo['Fabricante'] }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="detalles_tecnicos">Detalles técnicos</label>
+                            <textarea class="long-text-input" id="detalles_tecnicos" name="detalles_tecnicos">{{ equipo['Detalles_Tecnicos'] }}</textarea>
+                        </div>
+                        
+                        <!-- <div class="form-group mt-3">
+                            <label for="imagen_equipo">Imagen del equipo</label>
+                            <input type="file" class="form-control-file mt-2" id="imagen_equipo" name="imagen_equipo">
+                        </div> -->
+                        
+                        <div class="form-group mt-3">
+                            <label for="imagen_equipo">Imagen del equipo</label>
+                            <input type="file" class="form-control-file" id="imagen_equipo" name="imagen_equipo" accept="image/*" onchange="previewImages()">
+
+                            <!-- <input type="file" class="form-control-file" id="imagenAveria" name="imagenAveria" accept="image/*" onchange="previewImage()"> -->
+                            <!-- <input type="file" class="form-control-file mt-2" id="imagenAveria" name="imagenAveria"> -->
+                            <!-- Contenedor para la previsualización -->
+                        
+                            
+                            <script>
+                                function previewImages() {
+                                    const input = document.getElementById('imagen_equipo');
+                                    const previewContainer = document.getElementById('previewContainer');
+                                    const maxImages = 1; // Número máximo de imágenes permitidas
+
+                                    // Limpiar contenedor de previsualización
+                                    previewContainer.innerHTML = '';
+
+                                    // Verificar si se seleccionaron archivos
+                                    if (input.files) {
+                                        const files = Array.from(input.files);
+
+                                        // Verificar si excede el número máximo de imágenes
+                                        if (files.length > maxImages) {
+                                            alert("Solo puedes subir un máximo de ${maxImages} imágenes.");
+                                            input.value = ''; // Limpiar la selección de archivos
+                                            return;
+                                        }
+
+                                        files.forEach(file => {
+                                            if (file.type.startsWith('image/')) {
+                                                const reader = new FileReader();
+
+                                                reader.onload = function (event) {
+                                                    // Crear un contenedor para cada imagen
+                                                    const imageContainer = document.createElement('div');
+                                                    imageContainer.className = "image-container";
+                                                    imageContainer.style.position = "relative";
+                                                    imageContainer.style.marginBottom = "10px";
+                                                    imageContainer.style.display = "flex";
+                                                    imageContainer.style.justifyContent = "center";
+                                                    imageContainer.style.alignItems = "center";
+                                                    imageContainer.style.width = "100%";
+
+                                                    // Crear la imagen
+                                                    const img = document.createElement('img');
+                                                    img.src = event.target.result;
+                                                    img.alt = "Previsualización";
+                                                    img.style.width = "100%";
+                                                    img.style.height = "auto";
+                                                    img.style.border = "1px solid #ccc";
+                                                    img.style.borderRadius = "5px";
+
+                                                    // Crear el botón para eliminar la imagen
+                                                    const deleteBtn = document.createElement('button');
+                                                    deleteBtn.type = "button";
+                                                    deleteBtn.className = "delete-btn";
+                                                    deleteBtn.textContent = "×";
+                                                    deleteBtn.style.position = "absolute";
+                                                    deleteBtn.style.top = "5px";
+                                                    deleteBtn.style.right = "5px";
+                                                    deleteBtn.style.background = "red";
+                                                    deleteBtn.style.color = "white";
+                                                    deleteBtn.style.border = "none";
+                                                    deleteBtn.style.borderRadius = "50%";
+                                                    deleteBtn.style.cursor = "pointer";
+                                                    deleteBtn.style.width = "25px";
+                                                    deleteBtn.style.height = "25px";
+
+                                                    // Asignar evento al botón de eliminación
+                                                    deleteBtn.onclick = function () {
+                                                        imageContainer.remove();
+                                                    };
+
+                                                    // Añadir la imagen y el botón al contenedor de la imagen
+                                                    imageContainer.appendChild(img);
+                                                    imageContainer.appendChild(deleteBtn);
+
+                                                    // Añadir el contenedor de la imagen al contenedor principal
+                                                    previewContainer.appendChild(imageContainer);
+                                                };
+
+                                                // Leer el archivo como una URL de datos
+                                                reader.readAsDataURL(file);
+                                            }
+                                        });
+                                    }
+                                }
+
+
+                            
+                                // Función para eliminar todas las imágenes
+                                //function deleteAllImages() {
+                                    //const previewContainer = document.getElementById('previewContainer');
+                                    //previewContainer.innerHTML = ''; // Vaciar el contenedor
+                                    //imagen_equipo = ""; 
+                                    //console.log("Imagen del equipo eliminada. Variable imagen_equipo ahora está vacía.");
+                                // Función para eliminar todas las imágenes y resetear la variable
+
+                                function deleteImage(button) {
+                                        const imageContainer = button.parentElement;
+
+                                        // Eliminar del DOM
+                                        imageContainer.remove();
+
+                                        // Enviar solicitud al backend para eliminar la imagen
+                                        fetch('/equipo/reset_imagen_equipo', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    console.log('Imagen eliminada con éxito de la sesión.');
+                                                } else {
+                                                    console.error('Error al eliminar la imagen.');
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Error al enviar la solicitud:', error);
+                                            });
+                                    }
+
+
+                          
+                                function deleteAllImages() {
+                                    const previewContainer = document.getElementById('previewContainer');
+                                    const inputFile = document.getElementById('imagen_equipo');
+
+                                    // Vaciar contenedor
+                                    if (previewContainer) previewContainer.innerHTML = '';
+
+                                    // Limpiar el valor del input file
+                                    if (inputFile) inputFile.value = '';
+
+                                    console.log("Todas las imágenes eliminadas y campo limpiado.");
+                                }
+
+
+                            </script>
+                        </div>
+                        <!-- <button type="submit" class="btn btn-primary mt-4 w-100">Guardar Equipo</button> -->
+                    </form>
+                </div>
+            </div>
+    
+
+            <!-- Columna de presentación del equipo registrado (1/2 de la pantalla) -->
+            <!-- <div class="col-md-5">
+                <div class="card p-3 shadow-sm" style="height: 100%;">
+                    
+                    <div class="mt-3">
+                        {% if equipo['Imagen'] %}
+                            <div class="text-center">
+                                <img src="{{ equipo['Imagen'] }}" alt="Imagen del Equipo" class="img-fluid mt-3" style="max-width: 400px;">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-5">
+                   
+                <div id="previewContainer" class="card p-3 shadow-sm" style="height: 100%; position: relative;">
+                    {% if equipo['Imagen'] %}          
+                        <div class="image-container" style="display: inline-block; position: relative;">
+                            <!-- <img src="{{ equipo['Imagen'] }}" alt="Previsualización"  -->
+                             <img src="{{ equipo['Imagen'] }}" alt="Previsualización"
+                                 class="precargada" 
+                                 style="position: relative; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; width: 100%;">
+                            <button type="button" class="delete-btn" onclick="deleteImage(this)" 
+                                    style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer; width: 25px; height: 25px;">&times;</button>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- Botón para eliminar todas las imágenes -->
+                <button type="button" class="btn btn-danger mt-3" onclick="deleteAllImages()">Eliminar todas las imágenes</button>
+                
+                    <!-- <div id="previewContainer" class="d-flex flex-wrap mt-3"></div> -->
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="container-fluid mt-5">
+        <h2 class="section-title">Secuencia de funcionamiento del Equipo</h3>
+        <div class="row justify-content-center">
+            <!-- Columna de ingreso (1/3 de la pantalla) -->
+            <div class="col-md-4">
+                <div class="card p-3 mb-4 shadow-sm">
+                    <h5 class="card-title">Agregar nueva secuencia</h5>
+                    <form action="/equipo/add_secuencia" method="POST">
+                        <div class="form-group">
+                            <label for="secuencia_nombre">Nombre de la Secuencia</label>
+                            <input type="text" class="form-control mt-2" id="secuencia_nombre" name="secuencia_nombre" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary mt-3 w-100">Agregar Secuencia</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Columna de presentación de la tabla (2/3 de la pantalla) -->
+            <div class="col-md-8">
+                <div class="card p-3 shadow-sm">
+                    <h5 class="card-title">Listado de secuencias</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Índice</th>
+                                    <th>Nombre</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for secuencia in secuencias %}
+                                <tr>
+                                    <td>{{ secuencia['Indice'] }}</td>
+                                    <td>{{ secuencia['Nombre'] }}</td>
+                                    <td>
+
+                                        <a href="{{ url_for('equipo.secuencias', secuencia_id=secuencia['Indice']) }}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye"></i> Ver Condiciones
+                                        </a>
+                                        <a href="{{ url_for('equipo.edit_secuencia', index=secuencia['Indice']) }}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ url_for('equipo.delete_secuencia', index=secuencia['Indice']) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

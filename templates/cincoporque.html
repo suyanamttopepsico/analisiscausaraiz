@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definición del Provlema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .navbar-custom {
+            background-color: #004B93;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white !important;
+        }
+        .navbar-brand {
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+        }
+        .navbar-brand img {
+            margin-left: 5px;
+            height: 20px;
+            width: auto;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #004B93;
+            border-bottom: 2px solid #004B93;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .titulo-h4 {
+            font-size: 1.5rem; /* Tamaño de fuente de h4 en Bootstrap */
+            font-weight: 500; /* Peso de fuente de h4 en Bootstrap */
+            margin-bottom: 1.5rem; /* Margen inferior de h4 en Bootstrap */
+        }
+
+
+        h1 {
+            color: #1C83E1;
+        }
+
+        .btn-primary {
+            background-color: #1C83E1;
+            border-color: #1C83E1;
+        }
+
+        .btn-primary:hover {
+            background-color: #155a97;
+            border-color: #155a97;
+        }
+    </style>
+
+<script>
+    // Asegúrate de que el título se actualice al cargar la página si ya hay datos
+    document.addEventListener('DOMContentLoaded', (event) => {
+        generarTitulo();
+    });
+    function getFormulario(direccion) {
+            // Asigna el valor al campo oculto
+            document.getElementById('action').value = direccion;
+            // Envía el formulario
+            document.getElementById('formularioCincoporque').submit();
+        }
+
+
+    function irABases() {
+            window.location.href = "/bases";
+        }
+
+
+</script>
+<script>
+    function toggleCampoCostos() {
+        // Obtener el valor seleccionado
+        const previo = document.getElementById('previo').value;
+        const repetitivo = document.getElementById('repetitivo').value;
+       
+
+        // Mostrar el campo de costos solo si la causa es "Costo>10K"
+        if (previo  === 'Si, ha existido un problema previo') {
+            campodetallesPrevio.style.display = 'block';
+        } else {
+            campodetallesPrevio.style.display = 'none';
+        }
+
+        // Mostrar el campo de costos solo si la causa es "Costo>10K"
+        if (repetitivo === 'Si, es repetitivo') {
+            campodetallesRepetitivo.style.display = 'block';
+        } else {
+            campodetallesRepetitivo.style.display = 'none';
+        }
+    }
+
+    // Llamar a la función al cargar la página para establecer el estado inicial
+    window.onload = toggleCampoCostos;
+</script>
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" >
+            Método de Cinco ¿Por Qué?
+        </a>
+        
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('fenomeno').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('contramedidas').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-right" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('bases').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-save" style="font-size: 24px;"></i>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" >Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>          
+    <div class="container-fluid mt-5">
+        <form id="formularioCincoporque" action="{{ url_for('cincoporque.cincoporque') }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" id="action" value="">
+            <div class="row justify-content-center">
+                <!-- Columna de ingreso del usuario (1/2 de la pantalla) -->
+                <div class="col-md-6">
+                    <div class="card p-3 mb-4 shadow-sm" style="height: 100%;">  
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="primerPorque" class="form-label"><strong>1. ¿Por qué?</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="primerPorque" name="primerPorque" value="{{ cincoporque['Primer_porque'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="segundoPorque" class="form-label"><strong>2. ¿Por qué?</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="segundoPorque" name="segundoPorque" value="{{ cincoporque['Segundo_porque'] }}" required>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="tercerPorque" class="form-label"><strong>3. ¿Por qué?</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="tercerPorque" name="tercerPorque" value="{{ cincoporque['Tercer_porque'] }}" required>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="cuartoPorque" class="form-label"><strong>4. ¿Por qué?</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="cuartoPorque" name="cuartoPorque" value="{{ cincoporque['Cuarto_porque'] }}" required>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="quintoPorque" class="form-label"><strong>5. ¿Por qué?</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="quintoPorque" name="quintoPorque" value="{{ cincoporque['Quinto_porque'] }}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Columna de presentación de la imagen (1/2 de la pantalla) -->
+                <div class="col-md-6">
+                    <div class="card p-3 shadow-sm" style="height: 100%;">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="primeraRespuesta" class="form-label"><strong>1. Respuesta</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="primeraRespuesta" name="primeraRespuesta" value="{{ cincoporque['Primera_respuesta'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="segundaRespuesta" class="form-label"><strong>2. Respuesta</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="segundaRespuesta" name="segundaRespuesta" value="{{ cincoporque['Segunda_respuesta'] }}" required>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="terceraRespuesta" class="form-label"><strong>3. Respuesta</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="terceraRespuesta" name="terceraRespuesta" value="{{ cincoporque['Tercera_respuesta'] }}" required>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="cuartaRespuesta" class="form-label"><strong>4. Respuesta</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="cuartaRespuesta" name="cuartaRespuesta" value="{{ cincoporque['Cuarta_respuesta'] }}" required>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="quintaRespuesta" class="form-label"><strong>5. Respuesta</strong> (ejemplo)</label>
+                                <input type="text" class="form-control mt-2" id="quintaRespuesta" name="quintaRespuesta" value="{{ cincoporque['Quinta_respuesta'] }}" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        <div class="container-fluid mt-5">
+            <div class="card p-3 shadow-sm text-center" style="height: 100%;">
+                <div class="col-md-12">
+                    <label for="tipoDeAveria" class="form-label"><strong>Tipo de avería </strong></label>
+                    <select class="form-select" id="tipoDeAveria" name="tipoDeAveria" required onchange="toggleCampoCostos()">
+                        <option value="" disabled {{ 'selected' if cincoporque['Tipo_de_averia'] == "" else "" }}>Seleccione una opción</option>
+                        <option value="Deterioro Forzado" {{ 'selected' if cincoporque['Tipo_de_averia'] == "Deterioro Forzado" else "" }}>Deterioro Forzado</option>
+                        <option value="Sobrecarga" {{ 'selected' if cincoporque['Tipo_de_averia'] == "Sobrecarga" else "" }}>Sobrecarga</option>
+                        <option value="Deterior Natural" {{ 'selected' if cincoporque['Tipo_de_averia'] == "Deterior Natural" else "" }}>Deterior Natural</option>
+                        <option value="Error de Diseño" {{ 'selected' if cincoporque['Tipo_de_averia'] == "Error de Diseño" else "" }}>Error de Diseño</option>
+                        <option value="Error Humano" {{ 'selected' if cincoporque['Tipo_de_averia'] == "Error Humano" else "" }}>Error Humano</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+            
+
+            <!-- <button type="submit" class="btn btn-primary mt-4 w-10" onclick="generarTitulo()">Enviar Problema</button>  -->
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+
+</html>

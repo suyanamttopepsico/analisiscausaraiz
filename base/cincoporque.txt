@@ -1,0 +1,5 @@
+Primer porque	Primera respuesta	Segundo porque	Segunda respuesta	Tercer porque	Tercera respuesta	Cuarto porque	Cuarta respuesta	Quinto porque	Quinta respuesta	Tipo de averia	Evento	Autor
+											2	
+											3	
+											4	
+											5	

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio - RCA</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1C83E1; /* Color del texto */
+            border-bottom: 2px solid #1C83E1; /* Color de la línea */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        #sidebar {
+            height: 100%;
+            width: 0; /* Establecer la barra lateral oculta por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+            transition: 0.3s;
+            overflow-x: hidden;
+        }
+
+        #sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+            transition: 0.3s;
+        }
+
+        #sidebar a:hover {
+            color: #007bff;
+        }
+
+        #main {
+            margin-left: 0; /* No margen izquierdo al principio */
+            transition: margin-left 0.3s;
+        }
+
+        #sidebarCollapse {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .navbar-custom {
+            background-color: #004B93;
+        }
+
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white !important;
+        }
+
+        .navbar-brand {
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+        }
+
+        .navbar-brand img {
+            margin-left: 5px;
+            height: 20px;
+            width: auto;
+        }
+
+        .sidebar-link {
+            margin-top: 40px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .card img {
+            max-height: 150px;
+            object-fit: cover;
+        }
+
+        .ticker {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        .ticker-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 0;
+                padding-top: 15px;
+            }
+
+            #main {
+                margin-left: 0;
+            }
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card-container .card {
+            flex: 1 1 calc(20% - 10px);
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">
+            Análisis Causa Raíz Andinos
+            <img src="{{ url_for('static', filename='images/Venezuela.png') }}" alt="ImagenVenezuela">
+            <img src="{{ url_for('static', filename='images/Colombia.png') }}" alt="ImagenColombia">
+            <img src="{{ url_for('static', filename='images/Ecuador.png') }}" alt="ImagenEcuador">
+            <img src="{{ url_for('static', filename='images/Perú.png') }}" alt="ImagenPerú">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login.logout') }}">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="sidebar">
+        <a href="{{ url_for('login.edit_user', username=current_user.username) }}" class="sidebar-link">Editar Perfil</a>
+        <a href="#">Opción 2</a>
+        <a href="#">Opción 3</a>
+    </div>
+
+    <div id="main" class="container-fluid mt-5">
+        <div id="sidebarCollapse" onclick="toggleSidebar()">☰</div>
+        <div class="section-title">Herramientas para Análisis Causa Raíz</div>
+        <div class="card-container">
+            <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                <div class="card text-justify">
+                    <img src="{{ url_for('static', filename='images/Pepsico_logo_blanco.png') }}" class="card-img-top" alt="Imagen 1">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">Nuevo Análisis de Causa Raíz</h5>
+                        <a href="{{ url_for('evento.evento') }}" class="btn btn-primary mt-3">Nuevo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                <div class="card text-justify">
+                    <img src="{{ url_for('static', filename='images/Pepsico_logo_blanco.png') }}" class="card-img-top" alt="Imagen 1">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">Biblioteca Personal de Análisis</h5>
+                        <a href="{{ url_for('bibliotecaPersonal.bibliotecausuario') }}" class="btn btn-primary mt-3">Ver</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                <div class="card text-justify">
+                    <img src="{{ url_for('static', filename='images/Pepsico_logo_blanco.png') }}" class="card-img-top" alt="Imagen 1">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">Biblioteca General de Planta</h5>
+                        <a href="{{ url_for('bibliotecaPlanta.bibliotecaPlanta') }}" class="btn btn-primary mt-3">Ver</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                <div class="card text-justify">
+                    <img src="{{ url_for('static', filename='images/Pepsico_logo_blanco.png') }}" class="card-img-top" alt="Imagen 1">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">Biblioteca Regional RCA</h5>
+                        <a href="{{ url_for('bibliotecaRegional.bibliotecaRegional') }}" class="btn btn-primary mt-3">Ver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if (current_user.position == 'Supervisor de Planta' or current_user.position == 'Supervisor Regional') and current_user.pending_approval == 0 %}
+        <div class="section-title">Herramientas de Supervisor</div>
+        <div class="card-container">
+            <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                <div class="card text-justify">
+                    <img src="{{ url_for('static', filename='images/Pepsico_logo_blanco.png') }}" class="card-img-top" alt="Imagen 1">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">RCA Asignados Experimental</h5>
+                        <a href="{{ url_for('asignado.asignado') }}" class="btn btn-primary mt-3">Ver</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                <div class="card text-justify">
+                    <img src="{{ url_for('static', filename='images/Pepsico_logo_blanco.png') }}" class="card-img-top" alt="Imagen 1">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">Aprobación de RCA Planta</h5>
+                        <a href="{{ url_for('bibliotecaAprobado.bibliotecaAprobado') }}" class="btn btn-primary mt-3">Ver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="ticker">
+        <div class="ticker-text">
+            Este es un mensaje de ticker que se mueve de derecha a izquierda a través de la página.
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var main = document.getElementById("main");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+                main.style.marginLeft = "0";
+            } else {
+                sidebar.style.width = "250px";
+                main.style.marginLeft = "250px";
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

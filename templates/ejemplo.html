@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostrar/Ocultar Elemento</title>
+</head>
+<body>
+    <label for="selector">Selecciona una opción:</label>
+    <select id="selector" onchange="toggleElement()">
+        <option value="mostrar">Mostrar Elemento</option>
+        <option value="ocultar">Ocultar Elemento</option>
+    </select>
+
+    <!-- Este es el elemento que aparecerá o desaparecerá -->
+    <div id="elemento" style="display: none; margin-top: 10px;">
+        ¡Hola! Este elemento se muestra o se oculta.
+    </div>
+
+    <script>
+        function toggleElement() {
+            // Obtener el valor seleccionado
+            const selector = document.getElementById('selector').value;
+            const elemento = document.getElementById('elemento');
+
+            // Mostrar u ocultar el elemento según el valor
+            if (selector === 'mostrar') {
+                elemento.style.display = 'block';
+            } else {
+                elemento.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

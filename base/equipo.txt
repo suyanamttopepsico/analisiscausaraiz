@@ -1,0 +1,8 @@
+Nombre	Imagen	Fabricante	Detalles técnicos	Evento	Autor
+				1	
+				2	
+				3	
+				4	
+				5	
+				4	
+				2	

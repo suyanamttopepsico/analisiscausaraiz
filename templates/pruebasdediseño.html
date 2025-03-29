@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Evento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .navbar-custom {
+            background-color: #004B93;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white !important;
+        }
+        .navbar-brand {
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+        }
+        .navbar-brand img {
+            margin-left: 5px;
+            height: 20px;
+            width: auto;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #004B93;
+            border-bottom: 2px solid #004B93;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1C83E1;
+        }
+
+        .btn-primary {
+            background-color: #1C83E1;
+            border-color: #1C83E1;
+        }
+
+        .btn-primary:hover {
+            background-color: #155a97;
+            border-color: #155a97;
+        }
+    </style>
+
+    <script>
+        function ubicacion() {
+            var planta = document.getElementById('planta').value;
+            var lineaProduccion = document.getElementById('lineaProduccion');
+            lineaProduccion.innerHTML = '';
+
+            if (planta === 'Suyana') {
+                var opciones = ["PC-14", "PC-10", "EXTRUIDOS SUAVES", "EXTRUIDOS DUROS", "TC-1500", "PELLET"];
+            } else if (planta === 'Funza') {
+                var opciones = ["PC-32", "BKF", "GALLETA 1", "GALLETA 2", "TORTILLA", "EXTRUIDO", "PC-50", "PELLET"];
+            } else if (planta === 'Oriente') {
+                var opciones = ["TC-2.0", "PC-14", "PC-21", "PC-12", "EXTRUIDOS DUROS", "PC-10", "EXTRUIDOS BLANDOS", "GUDIZ", "CHOKIS", "POP CORN", "MANI MOTO", "MANI SALADO", "MIXES", "TC-700"];
+            } else if (planta === 'Santa Anita') {
+                var opciones = ["EXTRUIDOS SUAVES 1", "EXTRUIDOS DUROS", "PELLETS", "PC-26", "POP CORN", "TC", "FCC", "PC-14", "AVENA"];
+            } else {
+                var opciones = ['1', '2'];
+            }
+
+            for (var i = 0; i < opciones.length; i++) {
+                var opt = document.createElement('option');
+                opt.value = opciones[i];
+                opt.innerHTML = opciones[i];
+                lineaProduccion.appendChild(opt);
+            }
+        }
+
+        function toggleCampoCostos() {
+            const causaRca = document.getElementById('causaRca').value;
+            const campoCostos = document.getElementById('campoCostos');
+            const campoMTBF = document.getElementById('campoMTBF');
+            const campoMTTR = document.getElementById('campoMTTR');
+            
+            // Mostrar el campo de costos solo si la causa es "Costo>10K"
+            if (causaRca === 'Costo>10K') {
+                campoCostos.style.display = 'block';
+            } else {
+                campoCostos.style.display = 'none';
+            }
+
+            // Mostrar el campo de MTBF solo si la causa es "Bajo MTBF"
+            if (causaRca === 'Bajo MTBF') {
+                campoMTBF.style.display = 'block';
+            } else {
+                campoMTBF.style.display = 'none';
+            }
+
+            // Mostrar el campo de MTTR solo si la causa es "Alto MTTR"
+            if (causaRca === 'Alto MTTR') {
+                campoMTTR.style.display = 'block';
+            } else {
+                campoMTTR.style.display = 'none';
+            }
+        }
+
+        window.onload = toggleCampoCostos;
+    </script>
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand">
+            Registro del evento
+        </a>
+        <a href="/auth/welcome" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left" style="font-size: 24px;"></i>
+        </a>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('problema').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-right" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('bases').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-save" style="font-size: 24px;"></i>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-5">
+        <form id="formEvento" method="POST">
+            <div class="section-title">Información General del Evento</div>
+            <input type="hidden" name="action" id="action" value="">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="categoria" class="form-label">Categoría</label>
+                    <select id="categoria" name="categoria" class="form-select">
+                        <option value="">Seleccionar</option>
+                        <option value="Avería">Avería (ZB01)</option>
+                        <option value="Mtto planeado">Mtto planeado (ZB02)</option>
+                        <option value="Mtto correctivo planeado">Mtto correctivo planeado (ZB05)</option>
+                        <option value="Paro operativo">Paro operativo</option>
+                        <option value="Reclamo">Reclamo</option>
+                        <option value="Defecto de calidad">Defecto de calidad</option>
+                        <option value="Condición insegura">Condición insegura</option>
+                        <option value="Acto inseguro">Acto inseguro</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="fechaEvento" class="form-label">Fecha de Evento</label>
+                    <input type="date" class="form-control" id="fechaEvento" name="fechaEvento">
+                </div>
+                <div class="col-md-3">
+                    <label for="otAveria" class="form-label">OT Avería</label>
+                    <input type="text" class="form-control" id="otAveria" name="otAveria">
+                </div>
+                <div class="col-md-3">
+                    <label for="otRca" class="form-label">OT RCA</label>
+                    <input type="text" class="form-control" id="otRca" name="otRca">
+                </div>
+            </div>
+
+            <div class="section-title">Ubicación del Evento</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="planta" class="form-label">Planta</label>
+                    <select class="form-select" id="planta" name="planta" onchange="ubicacion()">
+                        <option value="">Seleccionar</option>
+                        <option value="Suyana">Suyana</option>
+                        <option value="Funza">Funza</option>
+                        <option value="Oriente">Oriente</option>
+                        <option value="Santa Anita">Santa Anita</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="lineaProduccion" class="form-label">Línea de Producción</label>
+                    <select class="form-select" id="lineaProduccion" name="lineaProduccion">
+                        <option value="">Seleccionar</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">Causa RCA</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="causaRca" class="form-label">Causa RCA</label>
+                    <select class="form-select" id="causaRca" name="causaRca" onchange="toggleCampoCostos()">
+                        <option value="">Seleccionar</option>
+                        <option value="Costo>10K">Costo>10K</option>
+                        <option value="Bajo MTBF">Bajo MTBF</option>
+                        <option value="Alto MTTR">Alto MTTR</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3" id="campoCostos" style="display: none;">
+                    <label for="costos" class="form-label">Costos (USD)</label>
+                    <input type="number" class="form-control" id="costos" name="costos">
+                </div>
+
+                <div class="col-md-3" id="campoMTBF" style="display: none;">
+                    <label for="mtbf" class="form-label">MTBF</label>
+                    <input type="number" class="form-control" id="mtbf" name="mtbf">
+                </div>
+
+                <div class="col-md-3" id="campoMTTR" style="display: none;">
+                    <label for="mttr" class="form-label">MTTR</label>
+                    <input type="number" class="form-control" id="mttr" name="mttr">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

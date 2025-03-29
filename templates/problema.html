@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definición del Provlema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .navbar-custom {
+            background-color: #004B93;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white !important;
+        }
+        .navbar-brand {
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            font-size: 1.75rem;
+        }
+        .navbar-brand img {
+            margin-left: 5px;
+            height: 20px;
+            width: auto;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #004B93;
+            border-bottom: 2px solid #004B93;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .titulo-h4 {
+            font-size: 1.5rem; /* Tamaño de fuente de h4 en Bootstrap */
+            font-weight: 500; /* Peso de fuente de h4 en Bootstrap */
+            margin-bottom: 1.5rem; /* Margen inferior de h4 en Bootstrap */
+        }
+
+
+        h1 {
+            color: #1C83E1;
+        }
+
+        .btn-primary {
+            background-color: #1C83E1;
+            border-color: #1C83E1;
+        }
+
+        .btn-primary:hover {
+            background-color: #155a97;
+            border-color: #155a97;
+        }
+    </style>
+
+    <script>
+        function generarTitulo() {
+            var componente = document.getElementById('componente').value;
+            var parteComponente = document.getElementById('parteComponente').value;
+            var difiereEstadoNormal = document.getElementById('difiereEstadoNormal').value;
+
+            var titulo = `Título: ${componente}: ${parteComponente}, ${difiereEstadoNormal}`;
+            document.getElementById('tituloProblema').innerText = titulo;
+        }
+
+        // Asegúrate de que el título se actualice al cargar la página si ya hay datos
+        document.addEventListener('DOMContentLoaded', (event) => {
+            generarTitulo();
+        });
+        function getFormulario(direccion) {
+                // Asigna el valor al campo oculto
+                generarTitulo();
+                document.getElementById('action').value = direccion;
+                // Envía el formulario
+                document.getElementById('formEvento').submit();
+            }
+            // Función para previsualizar la imagen
+        function previewImage() {
+            const fileInput = document.getElementById('imagenAveria');
+            const preview = document.getElementById('preview');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Mostrar la imagen en el elemento <img>
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = ""; // Si no hay archivo, borrar previsualización
+            }
+        }
+
+        function previewImages() {
+            const fileInput = document.getElementById('imagenesAveria');
+            const previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = ''; // Limpiar previsualizaciones anteriores
+
+            const files = fileInput.files;
+
+            if (files.length > 0) {
+                Array.from(files).forEach((file) => {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Previsualización';
+                        img.style.maxWidth = '150px';
+                        img.style.margin = '5px';
+                        img.classList.add('img-thumbnail');
+                        previewContainer.appendChild(img);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+    </script>
+    <script>
+        function toggleCampoCostos() {
+            // Obtener el valor seleccionado
+            const previo = document.getElementById('previo').value;
+            const repetitivo = document.getElementById('repetitivo').value;
+        
+
+            // Mostrar el campo de costos solo si la causa es "Costo>10K"
+            if (previo  === 'Si, ha existido un problema previo') {
+                campodetallesPrevio.style.display = 'block';
+            } else {
+                campodetallesPrevio.style.display = 'none';
+            }
+
+            // Mostrar el campo de costos solo si la causa es "Costo>10K"
+            if (repetitivo === 'Si, es repetitivo') {
+                campodetallesRepetitivo.style.display = 'block';
+            } else {
+                campodetallesRepetitivo.style.display = 'none';
+            }
+        }
+
+        // Llamar a la función al cargar la página para establecer el estado inicial
+        window.onload = toggleCampoCostos;
+        
+        // Obtención del formulario
+        function getFormulario(direccion) {
+            // Asigna el valor al campo oculto
+            document.getElementById('action').value = direccion;
+            // Envía el formulario
+            document.getElementById('formProblema').submit();
+        }
+
+    </script>
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" >
+            Avería 
+        </a>
+        
+
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('evento').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('equipo').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-right" style="font-size: 24px;"></i>
+        </button>
+        <button type="button" class="btn btn-primary rounded-circle" onclick="getFormulario('bases').submit();" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-save" style="font-size: 24px;"></i>
+        </button>
+        
+        <script>
+            function guardarYNavegar(formId) {
+                // Guardar datos antes de la navegación
+                let formulario = document.getElementById(formId);
+                formulario.submit(); // Enviar formulario sin recargar
+            }
+        </script>
+        
+
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" >Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        <div class="container mt-5">
+            <div id="tituloProblema" class="mb-4 titulo-h4"></div>
+            
+            <div class="row justify-content-center">
+                <!-- Columna de ingreso del usuario (1/2 de la pantalla) poner container-fluid mt-5-->
+                <div class="col-md-7">
+                    <div class="card p-3 mb-4 shadow-sm" style="height: 100%;">
+                        <h5 class="card-title">Ingresar Datos del Problema</h5>
+                        <form id="formProblema" action="{{ url_for('problema.problema') }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="action" id="action" value="">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="componente" class="form-label">¿Qué componente?</label>
+                                    <input type="text" class="form-control mt-2" id="componente" name="componente" value="{{ datos['Componente'] }}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="parteComponente" class="form-label">¿Qué parte del componente?</label>
+                                    <input type="text" class="form-control mt-2" id="parteComponente" name="parteComponente" value="{{ datos['Parte_de_Componente'] }}" required>
+                                </div>
+                            </div>
+    
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="difiereEstadoNormal" class="form-label">¿Cómo difiere de su estado normal?</label>
+                                    <input type="text" class="form-control mt-2" id="difiereEstadoNormal" name="difiereEstadoNormal" value="{{ datos['Difiere_estado_normal'] }}" required>
+                                </div>
+                            </div>
+    
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="repetitivo" class="form-label">¿El problema es repetitivo?</label>
+                                    <select class="form-select" id="repetitivo" name="repetitivo" required onchange="toggleCampoCostos()">
+                                        <option value="" disabled {{ 'selected' if datos['Problema_repetitivo'] == "" else "" }}>Seleccione una opción</option>
+                                        <option value="Si, es repetitivo" {{ 'selected' if datos['Problema_repetitivo'] == "Si, es repetitivo" else "" }}>Si, es repetitivo</option>
+                                        <option value="No es repetitivo" {{ 'selected' if datos['Problema_repetitivo'] == "No es repetitivo" else "" }}>No es repetitivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12" id="campodetallesRepetitivo" style="display: none;">
+                                    <label for="detallesRepetitivo" class="form-label">Detalles de las acciones realizadas para solucionar el problema</label>
+                                    <textarea class="form-control" id="detallesRepetitivo" name="detallesRepetitivo">{{ datos['Detalles_Problema_repetitivo'] }}</textarea>
+                                </div>
+                            </div>
+    
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="previo" class="form-label">¿Ha existido este problema previo?</label>
+                                    <select class="form-select" id="previo" name="previo" required onchange="toggleCampoCostos()" >
+                                        <option value="" disabled {{ 'selected' if datos['Problema previo'] == "" else "" }}>Seleccione una opción</option>
+                                        <option value="Si, ha existido un problema previo" {{ 'selected' if datos['Problema_previo'] == "Si, ha existido un problema previo" else "" }}>Si, ha existido un problema previo</option>
+                                        <option value="No ha existido un problema previo" {{ 'selected' if datos['Problema_previo'] == "No ha existido un problema previo" else "" }}>No ha existido un problema previo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12" id="campodetallesPrevio" style="display: none;">
+                                    <label for="detallesPrevio" class="form-label">Descripción del síntoma anormal que se presentó</label>
+                                    <textarea class="form-control" id="detallesPrevio" name="detallesPrevio" >{{ datos['Detalles_Problema_Previo'] }}</textarea>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="imagenAveria">Imagen del equipo</label>
+                                <input type="file" class="form-control-file" id="imagenAveria" name="imagenAveria" accept="image/*" multiple onchange="previewImages()">
+
+                                <!-- <input type="file" class="form-control-file" id="imagenAveria" name="imagenAveria" accept="image/*" onchange="previewImage()"> -->
+                                <!-- <input type="file" class="form-control-file mt-2" id="imagenAveria" name="imagenAveria"> -->
+                                <!-- Contenedor para la previsualización -->
+                               
+                                
+                                <script>
+                                    function previewImages() {
+                                        const input = document.getElementById('imagenAveria');
+                                        const previewContainer = document.getElementById('previewContainer');
+
+                                        if (input.files) {
+                                            Array.from(input.files).forEach(file => {
+                                                if (file.type.startsWith('image/')) {
+                                                    const reader = new FileReader();
+
+                                                    reader.onload = function (event) {
+                                                        // Crear un contenedor para cada imagen
+                                                        const imageContainer = document.createElement('div');
+                                                        imageContainer.className = "image-container";
+                                                        imageContainer.style.position = "relative";
+                                                        imageContainer.style.marginBottom = "10px";
+                                                        imageContainer.style.display = "flex";
+                                                        imageContainer.style.justifyContent = "center";
+                                                        imageContainer.style.alignItems = "center";
+                                                        imageContainer.style.width = "100%";
+
+                                                        // Crear la imagen
+                                                        const img = document.createElement('img');
+                                                        img.src = event.target.result;
+                                                        img.alt = "Previsualización";
+                                                        img.style.width = "100%";
+                                                        img.style.height = "auto";
+                                                        img.style.border = "1px solid #ccc";
+                                                        img.style.borderRadius = "5px";
+
+                                                        // Crear el botón para eliminar la imagen
+                                                        const deleteBtn = document.createElement('button');
+                                                        deleteBtn.type = "button";
+                                                        deleteBtn.className = "delete-btn";
+                                                        deleteBtn.textContent = "×";
+                                                        deleteBtn.style.position = "absolute";
+                                                        deleteBtn.style.top = "5px";
+                                                        deleteBtn.style.right = "5px";
+                                                        deleteBtn.style.background = "red";
+                                                        deleteBtn.style.color = "white";
+                                                        deleteBtn.style.border = "none";
+                                                        deleteBtn.style.borderRadius = "50%";
+                                                        deleteBtn.style.cursor = "pointer";
+                                                        deleteBtn.style.width = "25px";
+                                                        deleteBtn.style.height = "25px";
+
+                                                        // Asignar evento al botón de eliminación
+                                                        deleteBtn.onclick = function () {
+                                                            imageContainer.remove();
+                                                        };
+
+                                                        // Añadir la imagen y el botón al contenedor de la imagen
+                                                        imageContainer.appendChild(img);
+                                                        imageContainer.appendChild(deleteBtn);
+
+                                                        // Añadir el contenedor de la imagen al contenedor principal
+                                                        previewContainer.appendChild(imageContainer);
+                                                    };
+
+                                                    // Leer el archivo como una URL de datos
+                                                    reader.readAsDataURL(file);
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                
+                                    // Función para eliminar todas las imágenes
+                                    function deleteAllImages() {
+                                        const previewContainer = document.getElementById('previewContainer');
+                                        previewContainer.innerHTML = ''; // Vaciar el contenedor
+                                    }
+                                
+                                    // Función para eliminar una imagen específica (si se necesita llamar desde otro lugar)
+                                    function deleteImage(button, imageIndex) {
+                                        const imageContainer = button.parentElement;
+
+                                        // Eliminar del DOM
+                                        imageContainer.remove();
+
+                                        // Enviar solicitud al backend para eliminar la imagen
+                                        fetch('/problema/delete_image', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ index: imageIndex }),
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    console.log('Imagen eliminada con éxito de la sesión.');
+                                                } else {
+                                                    console.error('Error al eliminar la imagen.');
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Error al enviar la solicitud:', error);
+                                            });
+                                    }
+
+                                </script>
+                                
+                                
+                            </div>
+    
+                            <!-- <button type="submit" class="btn btn-primary mt-4 w-100" onclick="generarTitulo()" >Enviar Problema </button>  -->
+                        </form>
+                    </div>
+                </div>
+    
+                <!-- Columna de presentación de la imagen (1/2 de la pantalla) -->
+                <div class="col-md-5">
+                   
+                    <div id="previewContainer" class="card p-3 shadow-sm" style="height: 100%; position: relative;">
+                        {% for imagen in imagenes %}         
+                            <div class="image-container" style="display: inline-block; position: relative;">
+                                <img src="{{ imagen['Imagen_de_Averia'] }}" alt="Previsualización" 
+                                     class="precargada" 
+                                     style="position: relative; margin-bottom: 10px; display: flex; justify-content: center; align-items: center; width: 100%;">
+                                <button type="button" class="delete-btn" onclick="deleteImage(this, {{ imagen['Indice'] }})" 
+                                        style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer; width: 25px; height: 25px;">&times;</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Botón para eliminar todas las imágenes -->
+                    <button type="button" class="btn btn-danger mt-3" onclick="deleteAllImages()">Eliminar todas las imágenes</button>
+                    
+                        <!-- <div id="previewContainer" class="d-flex flex-wrap mt-3"></div> -->
+                </div>
+            </div>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

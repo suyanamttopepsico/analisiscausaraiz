@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron mt-4">
+            <h1 class="display-4">Bienvenido,  {{ current_user.firstName }} {{ current_user.lastName }}!</h1>
+            <p class="lead">Esta es la página de inicio.</p>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg" href="{{ url_for('edit_user', username=current_user.username) }}" role="button">Editar Perfil</a>
+            <a class="btn btn-secondary btn-lg" href="{{ url_for('logout') }}" role="button">Cerrar sesión</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
