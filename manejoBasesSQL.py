@@ -132,11 +132,8 @@ def move_image_to_final(namesession, eventoID, username, columnasession="Imagen"
 
 
 def move_image_to_final_condiciones(namesession, eventoID, username, columnasession="Imagen"):
-    imagenes_finales = ""
-
-    # Verificar si namesession existe en session
-    if namesession not in session:
-        #raise KeyError(f"'{namesession}' no está en la sesión.")
+    # Verificar si namesession existe en session y es una lista
+    if namesession not in session or not isinstance(session[namesession], list):
         return
 
     # Carpeta temporal del usuario
@@ -146,17 +143,10 @@ def move_image_to_final_condiciones(namesession, eventoID, username, columnasess
     event_folder = get_event_folder(eventoID)
     
     for imagen in session[namesession]:
-        # Verificar si columnasession existe en la imagen
-        if columnasession not in imagen:
-            raise KeyError(f"'{columnasession}' no está en la imagen.")
-
-        # Obtener las imágenes de la sesión
-        temp_path = imagen[columnasession]
-
-            # Verificar que temp_path no sea None
-        if temp_path is None:
-            # Si es None, no hacer nada y terminar la función
-            return
+        # Verificar que la clave columnasession existe en cada diccionario
+        temp_path = imagen.get(columnasession)
+        if not temp_path:
+            continue  # Si no tiene imagen, saltar al siguiente
 
         if temp_path.startswith(f"/{user_temp_folder}"):
             temp_full_path = temp_path[1:]  # Quitar la barra inicial '/'
@@ -168,13 +158,8 @@ def move_image_to_final_condiciones(namesession, eventoID, username, columnasess
             # Mover la imagen
             os.rename(temp_full_path, final_path)
             
-            # Actualizar la lista con la nueva ruta
-            imagenes_finales = f"/{final_path}"
-        
-        # Actualizar el valor de la clave
-        imagen[columnasession] = imagenes_finales
-
-    
+            # Guardar la nueva ruta en una lista
+            imagen[columnasession] = f"/{final_path}"  # Si necesitas una lista, usa `[f"/{final_path}"]`
 
 
 
